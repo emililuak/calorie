@@ -35,11 +35,16 @@ const ItemCtrl = (function (){
         addItem: function (name, calories){
             let ID;
             if(data.items.length > 0){
-
+                ID = data.items[data.items.length - 1].id + 1
+            } else {
+                ID = 0
             }
+            calories = parseInt(calories)
+            const newItem = new Item(ID, name, calories)
+            data.items.push(newItem)
+            return newItem
         }
     }
-
 })();
 
 const UICtrl = (function (){
@@ -56,11 +61,23 @@ const UICtrl = (function (){
         },
         getItemInput: function (){
             const userInput = {
-                name: (document.querySelector('#item-name').value),
-                calories: document.querySelector('item-calories').value
+                name: document.querySelector('#item-name').value ,
+                calories: document.querySelector('#item-calories').value
             }
-
+            return userInput
+        },
+        addListItem: function (item){
+            const li = document.createElement('li')
+            li.id = `item-${item.id}`
+            let html = `<strong>${item.name}: </strong><em>${item.calories}</em>Calories`
+            li.innerHTML = html
+            document.querySelector('ul').insertAdjacentElement('beforeend', li)
+        },
+        clearInput: function (){
+            document.querySelector('#item-name').value = ''
+            document.querySelector('#item-calories').value = ''
         }
+
     }
 
 })()
@@ -69,7 +86,12 @@ const App = (function (){
     const itemAddSubmit = function (event){
         console.log('data is submitted')
         const userInput = UICtrl.getItemInput()
-        UICtrl.getItemInput()
+        console.log(userInput)
+        if (userInput.name !== '' && userInput.calories !== ''){
+            const newItem = ItemCtrl.addItem(userInput.name, userInput.calories)
+            UICtrl.addListItem(newItem)
+            UICtrl.clearInput()
+        }
         event.preventDefault()
     }
 
