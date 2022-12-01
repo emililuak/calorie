@@ -31,6 +31,12 @@ const ItemCtrl = (function (){
         },
         getItems: function (){
             return data.items
+        },
+        addItem: function (name, calories){
+            let ID;
+            if(data.items.length > 0){
+
+            }
         }
     }
 
@@ -47,12 +53,27 @@ const UICtrl = (function (){
         },
         showTotalCalories: function (totalCalories){
             document.querySelector('.total-calories').textContent = totalCalories
+        },
+        getItemInput: function (){
+            const userInput = {
+                name: (document.querySelector('#item-name').value),
+                calories: document.querySelector('item-calories').value
+            }
+
         }
     }
 
 })()
 
 const App = (function (){
+    const itemAddSubmit = function (event){
+        console.log('data is submitted')
+        const userInput = UICtrl.getItemInput()
+        UICtrl.getItemInput()
+        event.preventDefault()
+    }
+
+
     return{
         init: function (){
             const items = ItemCtrl.getItems()
@@ -60,6 +81,8 @@ const App = (function (){
             UICtrl.populateItemList(items)
             const totalCalories = ItemCtrl.getTotalCalories()
             UICtrl.showTotalCalories(totalCalories)
+
+            document.querySelector('.add-btn').addEventListener('click', itemAddSubmit)
         }
     }
 })(ItemCtrl, UICtrl)
