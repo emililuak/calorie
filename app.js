@@ -11,8 +11,7 @@ const ItemCtrl = (function (){
         items: [
             new Item(0, 'Steak Dinner', 1200),
             new Item(1, 'Cookie', 200),
-            new Item(2, 'Eggs', 300),
-
+            new Item(2, 'Eggs', 300)
         ],
         total: 0
     }
@@ -29,9 +28,9 @@ const ItemCtrl = (function (){
             })
             data.total = total
             return data.total
-        }
+        },
         getItems: function (){
-            return data.Items
+            return data.items
         }
     }
 
@@ -39,13 +38,13 @@ const ItemCtrl = (function (){
 
 const UICtrl = (function (){
     return{
-        populateitemList: function (items){
+        populateItemList: function (items){
             let html = ''
             items.forEach(function (item){
                 html += `<li id="item-${item.id}"><strong>${item.name}: </strong><em>${item.calories}</em>Calories</li>`
             })
             document.querySelector('ul').innerHTML = html
-        }
+        },
         showTotalCalories: function (totalCalories){
             document.querySelector('.total-calories').textContent = totalCalories
         }
@@ -54,13 +53,15 @@ const UICtrl = (function (){
 })()
 
 const App = (function (){
-    return(
+    return{
         init: function (){
             const items = ItemCtrl.getItems()
             console.log(items)
             UICtrl.populateItemList(items)
-            const totalCalorites = ItemCtrl.getTotalCalories()
-            UICtrl.showTotalCalories(totalCalorites)
+            const totalCalories = ItemCtrl.getTotalCalories()
+            UICtrl.showTotalCalories(totalCalories)
         }
-    )
+    }
 })(ItemCtrl, UICtrl)
+
+App.init()
